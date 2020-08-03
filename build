@@ -57,7 +57,7 @@ function help_menu() {
     echo "  -j  | --jobs:        Specify the amount of threads to use. This overrides the default detection"
     echo "  -nt | --no-tmpfs:    Do not use tmpfs for building (useful if you don't have much RAM)."
     echo "  -nu | --no-update:   Do not update the downloaded components before building (useful if you have slow internet)."
-    echo "  -p  | --package:     Possible values: gz or xz. Compresses toolchain after build."
+    echo "  -p  | --package:     Possible values: gz xz or zst. Compresses toolchain after build."
     echo "  -t  | --tarballs:    Use tarballs for binutils, ISL, and, GCC"
     echo "  -V  | --verbose:     Make script print all output, not just errors and the ending information"
     echo
@@ -370,6 +370,15 @@ function build_binaries() {
         make -C "${PXZ}" "${JOBS}" pxz || die "Error building pxz!"
         mv "${PXZ}"/pxz "${PREBUILTS_BIN}"
     fi
+   
+    if [[ ! -f ${PREBUILTS_BIN}/zstd ]]; then
+        ZSTD=${ROOT}/sources/zstd
+        [[ ! -d ${ZSTD} ]] && git -C "$(dirname "${ZSTD}")" clone --depth=1 https://github.com/facebook/zstd
+        git -C "${ZSTD}" clean -fxdq
+        git -C "${ZSTD}" pull
+        make -C "${ZSTD}" "${JOBS}" zstd || die "Error building zstd!"
+        mv "${ZSTD}"/zstd "${PREBUILTS_BIN}"
+    fi
 }
 
 
@@ -675,6 +684,9 @@ function package_tc() {
             "xz")
                 echo "Packaging with XZ..."
                 XZ_OPT=-9 tar -c --use-compress-program=pxz -f "${PACKAGE}" ${TARGET} ;;
+            "xz")
+                echo "Packaging with ZST..."
+                XZ_OPT=-9 tar -c --use-compress-program=zstd -f "${PACKAGE}" ${TARGET} ;;
             *)
                 die "Invalid compression specified... skipping" ;;
         esac
