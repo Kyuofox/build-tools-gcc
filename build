@@ -684,9 +684,9 @@ function package_tc() {
             "xz")
                 echo "Packaging with XZ..."
                 XZ_OPT=-9 tar -c --use-compress-program=pxz -f "${PACKAGE}" ${TARGET} ;;
-            "xz")
-                echo "Packaging with ZST..."
-                XZ_OPT=-9 tar -c --use-compress-program=zstd -f "${PACKAGE}" ${TARGET} ;;
+            "zst")
+                echo "Packaging with ZSTD..."
+                ZST_OPT=-9 tar -c --use-compress-program=zstd -f "${PACKAGE}" ${TARGET} ;;
             *)
                 die "Invalid compression specified... skipping" ;;
         esac
