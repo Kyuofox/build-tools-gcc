@@ -404,7 +404,7 @@ function download_sources() {
     if [[ -z ${TARBALLS} ]]; then
         if [[ ! -d binutils ]]; then
             header "DOWNLOADING BINUTILS"
-            git_clone https://git.linaro.org/toolchain/binutils-gdb.git binutils -b ${BINUTILS_git}
+            git_clone https://sourceware.org/git/binutils-gdb binutils -b ${BINUTILS_git}
         fi
 
         if [[ ! -d isl ]]; then
