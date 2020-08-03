@@ -22,7 +22,8 @@
 # https://www.gnu.org/software/binutils/
 # https://www.gnu.org/software/libc/
 # https://www.kernel.org/
-# https://git.linaro.org/toolchain/gcc.git # linaro and gnu
+# https://gcc.gnu.org/git/gcc.git # for gnu
+# https://git.linaro.org/toolchain/gcc.git # for linaro
 
 
 #############
@@ -414,7 +415,7 @@ function download_sources() {
 
         if [[ ! -d gcc ]]; then
             header "DOWNLOADING GCC"
-            git_clone https://git.linaro.org/toolchain/gcc.git -b ${GCC}
+            git_clone https://gcc.gnu.org/git/gcc.git -b ${GCC}
         fi
     else
         if [[ ! -f binutils-${BINUTILS_tar}.tar.xz ]]; then
