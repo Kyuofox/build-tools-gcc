@@ -629,7 +629,9 @@ function build_gcc() {
     ../gcc/configure "${CONFIGURATION[@]}" \
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
-                     --prefix="${INSTALL}"
+                     --prefix="${INSTALL}" \
+                     CFLAGS="-O3" \
+                     CXXFLAGS="-O3"
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
     make install-gcc "${JOBS}" || die "Error while installing gcc!" -n
     if [[ ${ARCH} = "x86_64" ]]; then
