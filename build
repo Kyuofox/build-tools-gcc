@@ -595,7 +595,13 @@ function build_binutils() {
     ../binutils/configure "${CONFIGURATION[@]}" \
                           --target=${TARGET} \
                           --prefix="${INSTALL}" \
+                          --enable-threads \
+                          --enable-deterministic-archives \
+                          --enable-new-dtags \
+                          --disable-compressed-debug-sections \
+                          --with-system-zlib \
                           --disable-gdb \
+                          --disable-werror \
                           --enable-gold \
                           --enable-ld=default \
                           --enable-plugins \
