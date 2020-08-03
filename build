@@ -599,8 +599,8 @@ function build_binutils() {
                           --enable-gold \
                           --enable-ld=default \
                           --enable-plugins \
-                          --CFLAGS=-O3 \
-                          --CXXFLAGS=-O3
+                          CFLAGS=-O3 \
+                          CXXFLAGS=-O3
     make "${JOBS}" || die "Error while building binutils!" -n
     make install "${JOBS}" || die "Error while installing binutils!" -n
 }
