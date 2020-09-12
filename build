@@ -184,7 +184,7 @@ function setup_variables() {
     MPC="mpc-1.1.0"
     ISL="isl-0.22.1" # Clone use master
     GLIBC="glibc-2.31"
-    LINUX="5.8.5"
+    LINUX="5.8.8"
 
     # Start of script
     START=$(date +%s)
