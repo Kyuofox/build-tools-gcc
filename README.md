@@ -59,6 +59,12 @@ For gz compression:
 tar -xvzf <toolchain_name>.tar.gz --strip-components=1
 ```
 
+For zstd compression:
+
+```bash
+tar -acf --zstd <toolchain_name>.tar.zst --strip-components=1
+```
+
 After that, point your cross compiler to the proper file and compile! This is
 an easy shortcut for kernels (when run in the directory you extracted the
 toolchain in):
