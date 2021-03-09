@@ -178,12 +178,12 @@ function setup_variables() {
 
     # Binary versions
     BINUTILS_git="master"
-    BINUTILS_tar="2.35.1"
-    GMP="gmp-6.2.0"
+    BINUTILS_tar="2.36.1"
+    GMP="gmp-6.2.1"
     MPFR="mpfr-4.1.0"
-    MPC="mpc-1.2.0"
+    MPC="mpc-1.2.1"
     ISL="isl-0.23" # Clone use master
-    GLIBC="glibc-2.32"
+    GLIBC="glibc-2.33"
     LINUX="5.11.4"
 
     # Start of script
