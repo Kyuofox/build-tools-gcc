@@ -604,7 +604,9 @@ function build_binutils() {
                           --disable-werror \
                           --enable-gold \
                           --enable-ld=default \
-                          --enable-plugins
+                          --enable-plugins \
+                          CFLAGS=-O3 \
+                          CXXFLAGS=-O3
     make "${JOBS}" || die "Error while building binutils!" -n
     make install "${JOBS}" || die "Error while installing binutils!" -n
 }
@@ -627,7 +629,9 @@ function build_gcc() {
     ../gcc/configure "${CONFIGURATION[@]}" \
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
-                     --prefix="${INSTALL}"
+                     --prefix="${INSTALL}" \
+                     CFLAGS=-O3 \
+                     CXXFLAGS=-O3
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
     make install-gcc "${JOBS}" || die "Error while installing gcc!" -n
     if [[ ${ARCH} = "x86_64" ]]; then
@@ -646,6 +650,8 @@ function build_glibc() {
                           --host=${TARGET} \
                           --target=${TARGET} \
                           --with-headers="${INSTALL}/${TARGET}/include" \
+                          CFLAGS=-O3
+                          CXXFLAGS=-O3
                           "${CONFIGURATION[@]}" libc_cv_forced_unwind=yes
     make install-bootstrap-headers=yes install-headers "${JOBS}" || die "Error installing headers for glibc!" -n
     make csu/subdir_lib "${JOBS}" || die "Error while making subdir_lib for glibc!" -n
