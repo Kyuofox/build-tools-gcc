@@ -183,7 +183,7 @@ function setup_variables() {
     MPFR="mpfr-4.1.0"
     MPC="mpc-1.2.1"
     ISL="isl-0.23" # Clone use master
-    GLIBC="glibc-2.33"
+    GLIBC="glibc-2.33" # Clone use master
     LINUX="5.11.16"
 
     # Start of script
@@ -400,11 +400,6 @@ function download_sources() {
         axel https://ftp.gnu.org/gnu/mpc/${MPC}.tar.gz
     fi
 
-    if [[ ! -f ${GLIBC}.tar.xz ]]; then
-        header "DOWNLOADING GLIBC ${GLIBC} FOR GCC ${VERSION}"
-        axel https://ftp.gnu.org/gnu/glibc/${GLIBC}.tar.xz
-    fi
-
     if [[ ! -f linux-${LINUX}.tar.xz ]]; then
         header "DOWNLOADING LINUX KERNEL"
         axel https://cdn.kernel.org/pub/linux/kernel/v${LINUX/.*}.x/linux-${LINUX}.tar.xz
@@ -414,6 +409,11 @@ function download_sources() {
         if [[ ! -d binutils ]]; then
             header "DOWNLOADING BINUTILS"
             git_clone https://sourceware.org/git/binutils-gdb binutils -b ${BINUTILS_git}
+        fi
+        
+        if [[ ! -d glibc ]]; then
+            header "DOWNLOADING GLIBC"
+            git_clone https://sourceware.org/git/glibc.git
         fi
 
         if [[ ! -d isl ]]; then
@@ -430,6 +430,11 @@ function download_sources() {
         if [[ ! -f binutils-${BINUTILS_tar}.tar.xz ]]; then
             header "DOWNLOADING BINUTILS ${BINUTILS_tar} FOR GCC ${VERSION}"
             axel https://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_tar}.tar.xz
+        fi
+        
+        if [[ ! -f ${GLIBC}.tar.xz ]]; then
+            header "DOWNLOADING GLIBC ${GLIBC} FOR GCC ${VERSION}"
+            axel https://ftp.gnu.org/gnu/glibc/${GLIBC}.tar.xz
         fi
 
         if [[ ! -f ${ISL}.tar.xz ]]; then
@@ -480,11 +485,11 @@ function extract_sources() {
     extract ${MPFR}.tar.xz ../${MPFR}
     extract ${GMP}.tar.xz ../${GMP}
     extract ${MPC}.tar.gz ../${MPC}
-    extract ${GLIBC}.tar.xz ../${GLIBC}
     extract linux-${LINUX}.tar.xz ../linux
     if [[ -n ${TARBALLS} ]]; then
         extract binutils-${BINUTILS_tar}.tar.xz ../binutils
         extract ${ISL}.tar.xz ../${ISL}
+        extract ${GLIBC}.tar.xz ../${GLIBC}
         if [[ ${SOURCE} = "linaro" && ${VERSION} -ge 8 ]]; then
             # We can't use extract function here as this ships other GNU tools
             # Only extract GCC source and later rename it to gcc
@@ -506,6 +511,11 @@ function update_repos() {
             git remote update
             git checkout -f master
             ./autogen.sh
+        )
+        (
+            cd glibc || die "GLIBC did not get cloned properly!"
+            git remote update
+            git checkout -f master
         )
         (
             cd binutils || die "binutils did not get cloned properly!"
@@ -532,6 +542,7 @@ function update_repos() {
 
     [[ ! -d binutils ]] && ln -s sources/binutils binutils
     [[ ! -d gcc ]] && ln -s sources/gcc gcc
+    [[ ! -d glibc ]] && ln -s sources/glibc glibc
 }
 
 
@@ -645,7 +656,7 @@ function build_gcc() {
 function build_glibc() {
     header "MAKING GLIBC"
     cd ../build-glibc || die "glibc build folder does not exist!"
-    ../${GLIBC}/configure --prefix="${INSTALL}/${TARGET}" \
+    ../glibc/configure --prefix="${INSTALL}/${TARGET}" \
                           --build="${MACHTYPE}" \
                           --host=${TARGET} \
                           --target=${TARGET} \
