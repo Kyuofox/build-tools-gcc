@@ -627,14 +627,7 @@ function build_gcc() {
     ../gcc/configure "${CONFIGURATION[@]}" \
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
-                     --prefix="${INSTALL}" \
-                     --enable-ld \
-                     --enable-bootstrap \
-                     --enable-gold \
-                     --enable-objc-gc \
-                     --enable-plugin \
-                     --enable-lto \
-                     --with-build-config="bootstrap-lto-lean bootstrap-O3"
+                     --prefix="${INSTALL}"
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
     make install-gcc "${JOBS}" || die "Error while installing gcc!" -n
     if [[ ${ARCH} = "x86_64" ]]; then
