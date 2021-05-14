@@ -184,7 +184,7 @@ function setup_variables() {
     MPC="mpc-1.2.1"
     ISL="isl-0.23" # Clone use master
     GLIBC="glibc-2.33" # Clone use master
-    LINUX="5.12.1"
+    LINUX="5.12.4"
 
     # Start of script
     START=$(date +%s)
@@ -641,6 +641,7 @@ function build_gcc() {
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
                      --prefix="${INSTALL}" \
+                     --enable-lto \
                      CFLAGS=-O3 \
                      CXXFLAGS=-O3
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
