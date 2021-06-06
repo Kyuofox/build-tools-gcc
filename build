@@ -749,6 +749,7 @@ setup_env
 build_binutils
 build_headers
 build_gcc
+build_glibc
 install_gcc
 package_tc
 ending_info
