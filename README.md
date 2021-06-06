@@ -28,8 +28,8 @@ The printout will show you how to run the script.
 Example commands:
 
 ```bash
-# Build a GNU 11.x toolchain for arm64 and arm
-./build -a arm64 -s gnu -v 11 -V && ./build -a arm -s gnu -v 11 -V
+# Build a GNU 12.x toolchain for arm64 and arm
+./build -a arm64 -s gnu -v 12 -V && ./build -a arm -s gnu -v 12 -V
 
 # Build a GNU 8.x toolchain for x86_64
 ./build -a x86_64 -s gnu -v 8 -V
