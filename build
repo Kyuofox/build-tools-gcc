@@ -632,7 +632,6 @@ function build_gcc() {
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
                      --prefix="${INSTALL}" \
-                     --enable-lto \
                      CFLAGS=-O3 \
                      CXXFLAGS=-O3
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
