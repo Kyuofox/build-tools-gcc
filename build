@@ -182,7 +182,7 @@ function setup_variables() {
     GMP="gmp-6.2.1"
     MPFR="mpfr-4.1.0"
     MPC="mpc-1.2.1"
-    ISL="isl-0.24" # Clone use master
+    ISL="isl-0.24"
     GLIBC="glibc-2.34"
     LINUX="5.13.9"
 
@@ -506,7 +506,7 @@ function update_repos() {
         (
             cd isl || die "ISL did not get cloned properly!"
             git remote update
-            git checkout -f master
+            git checkout -f ${ISL}
             ./autogen.sh
         )
         (
