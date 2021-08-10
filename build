@@ -183,7 +183,7 @@ function setup_variables() {
     MPFR="mpfr-4.1.0"
     MPC="mpc-1.2.1"
     ISL="isl-0.23" # Clone use master
-    GLIBC="glibc-2.33"
+    GLIBC="glibc-2.34"
     LINUX="5.13.9"
 
     # Start of script
