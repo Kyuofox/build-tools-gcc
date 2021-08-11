@@ -652,8 +652,6 @@ function build_glibc() {
                           --host=${TARGET} \
                           --target=${TARGET} \
                           --with-headers="${INSTALL}/${TARGET}/include" \
-                          CFLAGS=-O3
-                          CXXFLAGS=-O3
                           "${CONFIGURATION[@]}" libc_cv_forced_unwind=yes
     make install-bootstrap-headers=yes install-headers "${JOBS}" || die "Error installing headers for glibc!" -n
     make csu/subdir_lib "${JOBS}" || die "Error while making subdir_lib for glibc!" -n
