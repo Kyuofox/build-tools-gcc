@@ -50,7 +50,7 @@ function help_menu() {
     echo "${BOLD}REQUIRED PARAMETERS:${RST}"
     echo "  -a  | --arch:        Possible values: arm, arm64, i686, or x86_64. This is the toolchain's target architecture."
     echo "  -s  | --source:      Possible values: gnu or linaro. This is the GCC source (GNU official vs. Linaro fork)."
-    echo "  -v  | --version:     Possible values: (4, 5, 6, 7, 8, 9*, 10*, 11* and 12* [*GNU only]). This is the GCC version to build."
+    echo "  -v  | --version:     Possible values: (4, 5, 6, 7, 8, 9*, 10*, 11* and 12.1* [*GNU only]). This is the GCC version to build."
     echo
     echo "${BOLD}OPTIONAL PARAMETERS:${RST}"
     echo "  -f  | --full-src:    Download full git repos instead of shallow clones"
@@ -248,7 +248,7 @@ function parse_parameters() {
             "gnu:9") GCC=releases/gcc-9 ;;
             "gnu:10") GCC=releases/gcc-10 ;;
             "gnu:11") GCC=release/gcc-11 ;;
-            "gnu:12") GCC=master ;;
+            "gnu:12.1") GCC=master ;;
             "linaro:4") GCC=linaro-local/releases/linaro-4.9-2017.01
                         GLIBC="glibc-2.27"
                         ISL="isl-0.17.1" ;;
@@ -280,7 +280,7 @@ function parse_parameters() {
             "gnu:9") GCC=releases/gcc-9 ;;
             "gnu:10") GCC=releases/gcc-10 ;;
             "gnu:11") GCC=releases/gcc-11 ;;
-            "gnu:12") die "GCC 12.0 is currently a WIP so there is no tarball to download! Either use the git repo or choose a new version..." ;;
+            "gnu:12.1") die "GCC 12.1 is currently a WIP so there is no tarball to download! Either use the git repo or choose a new version..." ;;
             "linaro:4") GCC=linaro-4.9-2017.01
                         GLIBC="glibc-2.27"
                         ISL="isl-0.17.1" ;;
