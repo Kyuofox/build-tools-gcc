@@ -609,8 +609,8 @@ function build_binutils() {
                           --enable-gold \
                           --enable-ld=default \
                           --enable-plugins \
-                          CFLAGS=-O3 \
-                          CXXFLAGS=-O3
+                          CFLAGS="-O3" \
+                          CXXFLAGS="-O3"
     make "${JOBS}" || die "Error while building binutils!" -n
     make install "${JOBS}" || die "Error while installing binutils!" -n
 }
@@ -634,8 +634,8 @@ function build_gcc() {
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
                      --prefix="${INSTALL}" \
-                     CFLAGS=-O3 \
-                     CXXFLAGS=-O3
+                     CFLAGS="-O3" \
+                     CXXFLAGS="-O3"
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
     make install-gcc "${JOBS}" || die "Error while installing gcc!" -n
     if [[ ${ARCH} = "x86_64" ]]; then
