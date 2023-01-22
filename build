@@ -634,6 +634,7 @@ function build_gcc() {
                      --enable-languages=c,c++ \
                      --target=${TARGET} \
                      --prefix="${INSTALL}" \
+                     --with-as=${target}/bin/as \
                      CFLAGS="-O3" \
                      CXXFLAGS="-O3"
     make all-gcc "${JOBS}" || die "Error while building gcc!" -n
