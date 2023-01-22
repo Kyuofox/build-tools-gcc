@@ -58,7 +58,7 @@ function bldgcc() { (
     # Create folders
     GCC_BLD=${GCC_TC_FOLDER:=${PWD}/gcc}/build
     mkdir -p "${GCC_TC_FOLDER}"
-    [[ ! -d ${GCC_BLD} ]] && git -C "${GCC_TC_FOLDER}" clone https://github.com/nathanchance/buildall build
+    [[ ! -d ${GCC_BLD} ]] && git -C "${GCC_TC_FOLDER}" clone https://github.com/Kyuofox/buildall build
     cd "${GCC_BLD}" || {
         echo "buildall clone failed!" >&2
         exit 1
