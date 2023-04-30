@@ -413,6 +413,11 @@ function download_sources() {
         axel https://ftp.gnu.org/gnu/glibc/${GLIBC}.tar.xz
     fi
 
+    if [[ ! -f ${ISL}.tar.xz ]]; then
+        header "DOWNLOADING ISL ${ISL} FOR GCC ${VERSION}"
+        axel https://libisl.sourceforge.io/${ISL}.tar.xz
+    fi
+
     if [[ ! -f linux-${LINUX}.tar.xz ]]; then
         header "DOWNLOADING LINUX KERNEL"
         axel https://cdn.kernel.org/pub/linux/kernel/v${LINUX/.*}.x/linux-${LINUX}.tar.xz
@@ -424,12 +429,6 @@ function download_sources() {
             git_clone https://sourceware.org/git/binutils-gdb binutils -b ${BINUTILS_git}
         fi
 
-        if [[ ! -d isl ]]; then
-            header "DOWNLOADING ISL"
-            # don't use git_clone
-            git clone git://repo.or.cz/isl.git
-        fi
-
         if [[ ! -d gcc ]]; then
             header "DOWNLOADING GCC"
             git_clone https://gcc.gnu.org/git/gcc.git -b ${GCC}
@@ -438,11 +437,6 @@ function download_sources() {
         if [[ ! -f binutils-${BINUTILS_tar}.tar.xz ]]; then
             header "DOWNLOADING BINUTILS ${BINUTILS_tar} FOR GCC ${VERSION}"
             axel https://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_tar}.tar.xz
-        fi
-
-        if [[ ! -f ${ISL}.tar.xz ]]; then
-            header "DOWNLOADING ISL ${ISL} FOR GCC ${VERSION}"
-            axel https://libisl.sourceforge.io/${ISL}.tar.xz
         fi
 
         # GNU, any version
@@ -489,10 +483,10 @@ function extract_sources() {
     extract ${GMP}.tar.xz ../${GMP}
     extract ${MPC}.tar.gz ../${MPC}
     extract ${GLIBC}.tar.xz ../${GLIBC}
+    extract ${ISL}.tar.xz isl
     extract linux-${LINUX}.tar.xz ../linux
     if [[ -n ${TARBALLS} ]]; then
         extract binutils-${BINUTILS_tar}.tar.xz ../binutils
-        extract ${ISL}.tar.xz ../${ISL}
         if [[ ${SOURCE} = "linaro" && ${VERSION} -ge 8 ]]; then
             # We can't use extract function here as this ships other GNU tools
             # Only extract GCC source and later rename it to gcc
@@ -510,12 +504,6 @@ function update_repos() {
     if [[ -z ${NO_UPDATE} && -z ${TARBALLS} ]]; then
         header "UPDATING SOURCES"
         (
-            cd isl || die "ISL did not get cloned properly!"
-            git remote update
-            git checkout -f ${ISL}
-            ./autogen.sh
-        )
-        (
             cd binutils || die "binutils did not get cloned properly!"
             [[ -n ${FULL_SOURCE} ]] && BRANCH=origin/${BINUTILS_git} || BRANCH=FETCH_HEAD
             git_fetch origin ${BINUTILS_git}
@@ -527,13 +515,6 @@ function update_repos() {
             git_fetch origin ${GCC}
             git checkout -f ${GCC} || git checkout -f -b ${GCC} ${BRANCH}
         )
-    else
-        if [[ -d isl ]]; then
-            (
-                cd isl || die "ISL did not get downloaded properly!"
-                ./autogen.sh
-            )
-        fi
     fi
 
     cd ..
@@ -564,11 +545,7 @@ function setup_env() {
     ln -s -f "${ROOT}/${MPFR}" mpfr
     ln -s -f "${ROOT}/${GMP}" gmp
     ln -s -f "${ROOT}/${MPC}" mpc
-    if [[ -n ${TARBALLS} ]]; then
-        ln -s -f "${ROOT}/${ISL}" isl
-    else
-        ln -s -f "${ROOT}/isl" isl
-    fi
+    ln -s -f "${ROOT}/isl" isl
 
     if [[ ${VERSION} -eq 4 ]]; then
         # GCC 4.9 (ARM/i686): error: ‘SIGSEGV' was not declared in this scope
