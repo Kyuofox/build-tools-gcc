@@ -385,7 +385,7 @@ function build_binaries() {
         git -C "${ZSTD}" clean -fxdq
         git -C "${ZSTD}" pull
         make -C "${ZSTD}" "${JOBS}" zstd || die "Error building zstd!"
-        mv "${ZSTD}"/zstd "${PREBUILTS_BIN}"
+        mv "${ZSTD}"/programs/zstd "${PREBUILTS_BIN}"
     fi
 }
 
